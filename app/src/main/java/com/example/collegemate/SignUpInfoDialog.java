@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
@@ -54,10 +55,12 @@ public class SignUpInfoDialog extends DialogFragment {
                 FirebaseFirestore db= FirebaseFirestore.getInstance();
 
                 Global.ModalClasses.UserInfoModal data = new Global.ModalClasses.UserInfoModal("",user.getUid(),"",name.getText().toString());
-                db.collection("users").document(user.getUid()).set(data).addOnCompleteListener(new OnCompleteListener<Void>() {
+                Map<String,Global.ModalClasses.UserInfoModal>payLoad = new HashMap<>();
+                payLoad.put("userInfo",data);
+                db.collection("users").document(user.getUid()).set(payLoad).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        startActivity(new Intent(getActivity(),Home.class));
+                        startActivity(new Intent(getActivity(),LoadScreen.class));
                     }
                 });
             }

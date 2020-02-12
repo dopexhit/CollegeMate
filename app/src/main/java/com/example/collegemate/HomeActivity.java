@@ -116,7 +116,7 @@ public class HomeActivity extends AppCompatActivity {
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     dialog.show(ft,"hello");
                 }else{
-                    startActivity(new Intent(HomeActivity.this,Home.class));
+                    startActivity(new Intent(HomeActivity.this,LoadScreen.class));
                 }
             }
         });
@@ -132,7 +132,7 @@ public class HomeActivity extends AppCompatActivity {
             mAuth.signInWithEmailAndPassword(email,pass).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                 @Override
                 public void onSuccess(AuthResult authResult) {
-                    startActivity(new Intent(HomeActivity.this,Home.class));
+                    startActivity(new Intent(HomeActivity.this,LoadScreen.class));
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override

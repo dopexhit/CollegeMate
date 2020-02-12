@@ -9,15 +9,18 @@
         android:roundIcon="@drawable/app_logo"
         android:supportsRtl="true"
         android:theme="@style/NoActionBarTheme">
-        <activity android:name=".Home"></activity>
-        <activity android:name=".SignUp" />
-        <activity android:name=".HomeActivity">
+        <activity android:name=".Attendance"></activity>
+        <activity android:name=".LoadScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".TimeTable" />
+        <activity android:name=".Home" />
+        <activity android:name=".SignUp" />
+        <activity android:name=".HomeActivity" />
     </application>
 
 </manifest>
