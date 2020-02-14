@@ -16,6 +16,23 @@ public class Global {
 
 
     static class ModalClasses{
+
+        static class AssignmentModal{
+            public String details;
+            public Long timestamp;
+            public String subject;
+
+            public AssignmentModal(){
+
+            }
+
+            public AssignmentModal(String details, Long timestamp, String subject) {
+                this.details = details;
+                this.timestamp = timestamp;
+                this.subject = subject;
+            }
+        }
+
         static class UserInfoModal{
             public String phone;
             public String uid;
@@ -70,9 +87,10 @@ public class Global {
     //Class to store all the data from UserDocument from Firebase
     static class UserData{
         public Map<String,List<ModalClasses.TimeTableModal>> timetable;
-        public ModalClasses.UserInfoModal userinfo;
+        public ModalClasses.UserInfoModal userInfo;
         public List<String> subjects;
         public Map<String,ModalClasses.AttendanceModal> attendance;
+        public List<ModalClasses.AssignmentModal> assignment;
 
         public UserData(){
 
@@ -80,7 +98,7 @@ public class Global {
 
         public UserData(Map<String, List<ModalClasses.TimeTableModal>> timetable, ModalClasses.UserInfoModal userinfo,List<String> subjects) {
             this.timetable = timetable;
-            this.userinfo = userinfo;
+            this.userInfo = userinfo;
             this.subjects = subjects;
         }
 

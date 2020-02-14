@@ -34,4 +34,16 @@ public class BasicFunctions {
 
         Collections.sort(Global.documentData.timetable.get(String.valueOf(day)),new SortByTime());
     }
+
+    static void SortAssignmentData(){
+        class SortByTime implements Comparator<Global.ModalClasses.AssignmentModal>{
+
+            @Override
+            public int compare(Global.ModalClasses.AssignmentModal o1, Global.ModalClasses.AssignmentModal o2) {
+                return (int) (o1.timestamp - o2.timestamp);
+            }
+        }
+
+        Collections.sort(Global.documentData.assignment,new SortByTime());
+    }
 }
