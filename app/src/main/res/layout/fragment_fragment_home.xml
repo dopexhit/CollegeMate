@@ -5,4 +5,16 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FragmentHome"/>
+    tools:context=".FragmentHome">
+
+    <Button
+        android:id="@+id/home_frag_assignment_reminder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/roundcornor_ripple"
+        android:backgroundTint="@color/colorTriadic"
+        android:text="Assignment Reminder"
+        android:textAppearance="@style/NormalTextStyle"
+        tools:layout_editor_absoluteX="223dp"
+        tools:layout_editor_absoluteY="629dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
