@@ -115,6 +115,7 @@ public class Home extends AppCompatActivity {
                 switch (position){
                     case 2 : startActivity(new Intent(Home.this,TimeTable.class));break;
                     case 3 : startActivity(new Intent(Home.this,Attendance.class));break;
+                    case 4: startActivity(new Intent(Home.this,Books.class));break;
                 }
             }
         });
