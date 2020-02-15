@@ -5,5 +5,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Books">
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="348dp"
+        android:layout_marginTop="610dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginBottom="9dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@android:drawable/ic_input_add" />
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/AddDocuments_toolbar"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/back_icon"
+        app:title="AddDocuments"
+        app:titleTextColor="#ffffff"
+        tools:layout_editor_absoluteX="1dp" />
+    <Button
+        android:id="@+id/fetch_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="160dp"
+        android:text="Button"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="618dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
