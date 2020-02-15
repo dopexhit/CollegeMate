@@ -15,12 +15,15 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -41,6 +44,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import static android.os.Environment.DIRECTORY_DOWNLOADS;
@@ -274,10 +278,10 @@ public class Books extends AppCompatActivity {
     }
     private void getFileUrl(StorageReference ref){
         final String name=ref.getName();
-        int flag = 0 ;
+        int flag = 0 ,idx=0;
         for(int i = 0; i< Global.documentData.savedFileModal.size(); i++){
             if(ref.getName().substring(0,ref.getName().lastIndexOf('.')).equals(((Long)Global.documentData.savedFileModal.get(i).id).toString())){
-                flag++;
+                flag++;idx=i;
             }
         }
         if(flag==0){
@@ -292,7 +296,15 @@ public class Books extends AppCompatActivity {
             Global.userRef.update("savedFileModal",Global.documentData.savedFileModal);
         }else{
             Toast.makeText(this, "FileModal Already Exists", Toast.LENGTH_SHORT).show();
-
+            String s="/storage/emulated/0/Android/data/com.example.collegemate/files/Download";
+            /*File file = new File(s+"/"+Global.documentData.savedFileModal.get(idx).id+".pdf");
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(Uri.fromFile(file), "application/pdf");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            startActivity(intent);*/
+            File file =new File(s+"/"+Global.documentData.savedFileModal.get(idx).id+".pdf");
+            System.out.println(file.exists()+"~~~~~~~~~"+file.getAbsolutePath());
+            loadDocInReader(s+"/"+Global.documentData.savedFileModal.get(idx).id+".pdf");
 
             return;
         }
@@ -300,10 +312,27 @@ public class Books extends AppCompatActivity {
             @Override
             public void onSuccess(Uri uri) {
                 String url =uri.toString();
-                downloadFile(Books.this,name.substring(0,name.lastIndexOf('.')),name.substring(name.lastIndexOf('.')+1),DIRECTORY_DOWNLOADS,url);
+                downloadFile(Books.this,name.substring(0,name.lastIndexOf('.')),name.substring(name.lastIndexOf('.')),DIRECTORY_DOWNLOADS,url);
             }
         });
     }
+
+
+    private void loadDocInReader(String doc)
+             {
+
+         {
+            Intent intent = new Intent();
+
+            intent.setPackage("cn.wps.moffice_eng");
+            //intent.setPackage("com.adobe.reader");
+             intent.setDataAndType(Uri.parse(doc), "application/pdf");
+
+            startActivity(intent);
+
+        }
+    }
+
 
     private View.OnClickListener downloadEvent = new View.OnClickListener() {
         @Override

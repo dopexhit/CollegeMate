@@ -108,7 +108,7 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
             @Override
             public void onSuccess(Uri uri) {
                 String url =uri.toString();
-                downloadFile(Scanner.this,name.substring(0,name.lastIndexOf('.')),name.substring(name.lastIndexOf('.')+1),DIRECTORY_DOWNLOADS,url);
+                downloadFile(Scanner.this,name.substring(0,name.lastIndexOf('.')),name.substring(name.lastIndexOf('.')),DIRECTORY_DOWNLOADS,url);
             }
         });
     }
