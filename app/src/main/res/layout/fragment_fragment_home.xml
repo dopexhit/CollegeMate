@@ -32,4 +32,17 @@
         android:tint="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/fragment_home_addsubject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/roundcornor_ripple"
+        android:backgroundTint="@color/colorTriadic"
+        android:text="Add Subject"
+        android:textAppearance="@style/NormalTextStyle"
+        app:layout_constraintBottom_toBottomOf="@+id/home_frag_assignment_reminder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/home_frag_assignment_reminder" />
 </androidx.constraintlayout.widget.ConstraintLayout>

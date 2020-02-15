@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
@@ -30,6 +31,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -110,10 +112,38 @@ public class Profile extends AppCompatActivity {
             }
         });
 
+        loadImage();
+
 
         showData();
     }
 
+
+    private void loadImage(){
+        StorageReference ref = FirebaseStorage.getInstance().getReference();
+        pb.setVisibility(View.VISIBLE);
+        try {
+            final File localFile = File.createTempFile("images", "jpg");
+            ref.child("profile/"+Global.documentData.userInfo.uid+"/profile.jpeg").getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    pb.setVisibility(View.GONE);
+                    Bitmap image = BitmapFactory.decodeFile(localFile.getPath());
+                    photo.setImageBitmap(image);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(Profile.this, "User Profile Doesnot Exists", Toast.LENGTH_SHORT).show();
+                    pb.setVisibility(View.GONE);
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 
     private void openCropActivity(Uri sourceUri, Uri destinationUri) {
         UCrop.of(sourceUri, destinationUri)

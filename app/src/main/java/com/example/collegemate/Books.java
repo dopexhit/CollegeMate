@@ -8,12 +8,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Application;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -47,9 +49,12 @@ import com.google.firebase.storage.UploadTask;
 import com.google.zxing.Dimension;
 import com.google.zxing.WriterException;
 
+import java.nio.file.Files;
 import java.util.ArrayList;
 
 import static android.os.Environment.DIRECTORY_DOWNLOADS;
+import static android.os.Environment.getExternalStorageDirectory;
+import static android.os.Environment.getExternalStorageState;
 
 public class Books extends AppCompatActivity {
 
@@ -63,7 +68,7 @@ public class Books extends AppCompatActivity {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull RecyclerViewAdapter.ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull RecyclerViewAdapter.ViewHolder holder, final int position) {
             final File data = Global.documentData.savedFile.get(position);
             holder.name.setText(data.name);
             holder.uploaded.setText(data.uploaded);
@@ -71,8 +76,21 @@ public class Books extends AppCompatActivity {
             holder.download.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    StorageReference ref = mStorageRef.child(Global.documentData.userInfo.uid+"/Books/"+data.id+".pdf");
-                    getFileUrl(ref);
+
+                    if(data.path  != null){
+                        java.io.File file = new java.io.File(data.path);
+
+
+                        // Get URI and MIME type of file
+                        Intent myIntent = new Intent(Intent.ACTION_VIEW);
+                        myIntent.setData(Uri.fromFile(file));
+                        Intent j = Intent.createChooser(myIntent, "Choose an application to open with:");
+                        startActivity(j);
+                    }else{
+                        StorageReference ref = mStorageRef.child(Global.documentData.userInfo.uid+"/Books/"+data.id+".pdf");
+                        getFileUrl(ref);
+                    }
+
                 }
             });
 
@@ -258,6 +276,8 @@ public class Books extends AppCompatActivity {
                                 Global.documentData.savedFile.add(down_file);
                                 Global.userRef.update("savedFile",Global.documentData.savedFile);
                             }
+
+                            //Opening File
                         }
                     }
                 })
@@ -299,7 +319,10 @@ public class Books extends AppCompatActivity {
             Global.documentData.savedFile.add(down_file);
             Global.userRef.update("savedFile",Global.documentData.savedFile);
         }else{
-            Toast.makeText(this, "File Already Exists", Toast.LENGTH_SHORT).show();return;
+            Toast.makeText(this, "File Already Exists", Toast.LENGTH_SHORT).show();
+
+
+            return;
         }
         ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override

@@ -18,7 +18,6 @@ public class Global {
     static Bitmap profileimage;
 
 
-
     static class ModalClasses{
 
         static class AssignmentModal{

@@ -70,6 +70,7 @@ public class FragmentHome extends Fragment  {
 
     Button assignmentreminder;
     ImageButton scan;
+    Button addsubject;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -80,6 +81,7 @@ public class FragmentHome extends Fragment  {
         //Refrencing objects
         assignmentreminder = rootview.findViewById(R.id.home_frag_assignment_reminder);
         scan = rootview.findViewById(R.id.fragment_home_scan);
+        addsubject = rootview.findViewById(R.id.fragment_home_addsubject);
 
 
         assignmentreminder.setOnClickListener(new View.OnClickListener() {
@@ -89,6 +91,15 @@ public class FragmentHome extends Fragment  {
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 dialog.show(ft,"hello");
 
+            }
+        });
+
+        addsubject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogAddSubject dialog = new DialogAddSubject();
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                dialog.show(ft,"hello");
             }
         });
 

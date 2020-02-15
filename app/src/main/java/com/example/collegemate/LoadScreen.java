@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -34,10 +35,6 @@ public class LoadScreen extends AppCompatActivity {
         //Refrencing
         pb = findViewById(R.id.loadscreen_pb);
 
-        if(BasicFunctions.isNetworkAvailable(LoadScreen.this)){
-
-        }
-
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Global.userFieldRef = db.collection("commonData").document("userFields");
         Global.userFieldRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -57,6 +54,8 @@ public class LoadScreen extends AppCompatActivity {
             }
         });
 
+
+
         //Check User Existence
 
 
@@ -72,6 +71,9 @@ public class LoadScreen extends AppCompatActivity {
                 if(task.getResult()!=null){
                     Global.documentData = task.getResult().toObject(Global.UserData.class);
                     startActivity(new Intent(LoadScreen.this,Home.class));
+                    finish();
+                }else{
+                    Toast.makeText(LoadScreen.this, "Please connect to Internet", Toast.LENGTH_SHORT).show();
                     finish();
                 }
             }
