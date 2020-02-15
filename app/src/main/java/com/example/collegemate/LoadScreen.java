@@ -38,6 +38,7 @@ public class LoadScreen extends AppCompatActivity {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Global.userFieldRef = db.collection("commonData").document("userFields");
+        Global.pollRef = db.collection("commonData").document("polls");
         Global.userFieldRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -84,12 +85,11 @@ public class LoadScreen extends AppCompatActivity {
 
     private void loadpolls(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        Global.pollRef = db.collection("commonData").document("polls");
         Global.pollRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.getResult() !=null){
-                    Global.polls = (ArrayList<Global.ModalClasses.PollModal>) task.getResult().get(Global.documentData.userInfo.batch.toString());
+                    Global.polls = task.getResult().toObject(Global.polls.getClass());
                 }
             }
         });
