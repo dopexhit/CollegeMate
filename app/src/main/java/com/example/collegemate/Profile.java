@@ -248,7 +248,7 @@ public class Profile extends AppCompatActivity {
         }
         branch.setText(Global.branches.get(data.branch));
         batch.setText(Global.batches.get(data.batch));
-        year.setText(String.valueOf(data.year));
+        year.setText(getResources().getStringArray(R.array.year_info)[Global.documentData.userInfo.year]);
 
     }
 }

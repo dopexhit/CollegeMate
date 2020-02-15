@@ -102,7 +102,7 @@ public class SignUpInfoDialog extends DialogFragment {
                 builder.setItems(years, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        branchid = which;
+                        yearid = which;
                         yearshow.setText(years[which]);
                     }
                 });
