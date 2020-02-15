@@ -8,11 +8,15 @@ public class File {
     public static ArrayList<File> arr_file=new ArrayList<>();
     public String path="";
     public long id;
+    public String uploaded;
+    public String name;
     public File(){}
 
-    public File(Long id ,String path){
+    public File(String uploaded,String name,Long id ,String path){
         this.id=id ;
         this.path=path;
+        this.name = name;
+        this.uploaded = uploaded;
     }
     public void add_file(){
         File.arr_file.add(this);

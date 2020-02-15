@@ -33,6 +33,11 @@ public class LoadScreen extends AppCompatActivity {
 
         //Refrencing
         pb = findViewById(R.id.loadscreen_pb);
+
+        if(BasicFunctions.isNetworkAvailable(LoadScreen.this)){
+
+        }
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Global.userFieldRef = db.collection("commonData").document("userFields");
         Global.userFieldRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

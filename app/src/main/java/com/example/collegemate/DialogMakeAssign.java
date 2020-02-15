@@ -129,7 +129,7 @@ public class DialogMakeAssign extends DialogFragment {
     public void setupNotifications(){
         Intent i = new Intent(getActivity(),Notifications.class);
         AlarmManager alarmmanager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);                      //to run the alarm even if we close the app
-        alarmmanager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis() , PendingIntent.getBroadcast(getActivity().getBaseContext(), 1,i, PendingIntent.FLAG_UPDATE_CURRENT));
+        alarmmanager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis()-System.currentTimeMillis() , PendingIntent.getBroadcast(getActivity().getBaseContext(), 1,i, PendingIntent.FLAG_UPDATE_CURRENT));
     }
 
     private  void uploadData(){
@@ -139,6 +139,7 @@ public class DialogMakeAssign extends DialogFragment {
 
 
         setupNotifications();
+        FragmentReminders.adapter.notifyDataSetChanged();
 
         if(Global.documentData.assignment == null){
             Global.documentData.assignment = new ArrayList<>();
@@ -183,6 +184,7 @@ public class DialogMakeAssign extends DialogFragment {
         @Override
         public void onClick(View v) {
             final Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.MILLISECOND, (int) System.currentTimeMillis());
             DatePickerDialog dialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
