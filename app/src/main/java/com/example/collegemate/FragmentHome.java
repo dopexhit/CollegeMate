@@ -1,6 +1,9 @@
 package com.example.collegemate;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -25,7 +28,7 @@ import com.google.zxing.Result;
  * Use the {@link FragmentHome#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentHome extends Fragment  {
+public class FragmentHome extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -72,6 +75,9 @@ public class FragmentHome extends Fragment  {
     ImageButton scan;
     Button addsubject;
 
+
+    private Integer MY_CAMERA_REQUEST_CODE = 100;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -103,20 +109,24 @@ public class FragmentHome extends Fragment  {
             }
         });
 
-        scan.setOnClickListener(scanCallback);
+        scan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+
+                Intent i = new Intent(getActivity(),Scanner.class);
+                startActivity(i);
+            }
+        });
+
 
 
         return rootview;
     }
 
 
-    private View.OnClickListener scanCallback = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            /*mScannerView = new ZXingScannerView(getContext());   // Programmatically initialize the scanner view
-            getActivity().setContentView(mScannerView); */
-        }
-    };
+
 
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -144,6 +154,7 @@ public class FragmentHome extends Fragment  {
     }
 
 
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -164,28 +175,8 @@ public class FragmentHome extends Fragment  {
 
 
 
-    //private ZXingScannerView mScannerView;
 
 
-    /*@Override
-    public void onResume() {
-        super.onResume();
-        mScannerView.setResultHandler(this); // Register ourselves as a handler for scan results.
-        mScannerView.startCamera();          // Start camera on resume
-    }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        mScannerView.stopCamera();           // Stop camera on pause
-    }
 
-    @Override
-    public void handleResult(Result rawResult) {
-        // Do something with the result here
-         // Prints the scan format (qrcode, pdf417 etc.)
-
-        // If you would like to resume scanning, call this method below:
-        mScannerView.resumeCameraPreview(this);
-    } */
 }

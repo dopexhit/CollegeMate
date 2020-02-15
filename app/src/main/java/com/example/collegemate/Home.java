@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,18 +17,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Home extends AppCompatActivity {
     private class ViewPagerAdapter extends FragmentPagerAdapter{
@@ -42,7 +39,7 @@ public class Home extends AppCompatActivity {
             switch (position){
                 case 0:return new FragmentHome();
                 case 1: return new FragmentReminders();
-                case 2: return new FragmentNotifications();
+                case 2: return new FragmentPolls();
             }
             return null;
         }
@@ -59,6 +56,7 @@ public class Home extends AppCompatActivity {
     ListView lv;
     DrawerLayout drawerLayout;
     Button logout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,7 +139,13 @@ public class Home extends AppCompatActivity {
                 finish();
             }
         });
+
+
+
+
     }
+
+
 
 
     @Override

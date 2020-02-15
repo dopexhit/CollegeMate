@@ -18,14 +18,15 @@
             android:id="@+id/books_recycler_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:text="TextView"
+            android:textAppearance="@style/NormalTextViewAppearance"
             android:textSize="25dp"
             android:textStyle="bold"
-            android:textAppearance="@style/NormalTextViewAppearance"
-            app:layout_constraintEnd_toStartOf="@+id/books_recycler_imagebutton"
-            app:layout_constraintStart_toEndOf="@+id/books_recycler_image_preview"
-            app:layout_constraintTop_toTopOf="@+id/books_recycler_image_preview" />
+            app:layout_constraintBottom_toBottomOf="@+id/books_recycler_imagebutton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/books_recycler_imagebutton"
+            app:layout_constraintTop_toTopOf="@+id/books_recycler_imagebutton" />
 
         <TextView
             android:id="@+id/books_recycler_uploaded"
@@ -54,27 +55,27 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/books_recycler_imagebutton" />
 
-        <ImageView
-            android:id="@+id/books_recycler_image_preview"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/roundcornor_ripple"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <ImageButton
             android:id="@+id/books_recycler_imagebutton"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
             android:background="@drawable/roundcornor_ripple"
             android:backgroundTint="@color/colorTriadic"
             android:tint="@color/colorWhite"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/qr_icon" />
+
+        <ImageButton
+            android:id="@+id/book_recycler_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/roundcornor_ripple"
+            android:tint="@android:color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/morevert_icon" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

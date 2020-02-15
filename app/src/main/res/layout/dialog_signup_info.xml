@@ -47,12 +47,14 @@
             android:id="@+id/signup_info_dialog_submit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:layout_marginEnd="24dp"
+            android:layout_marginTop="70dp"
+            android:layout_marginEnd="52dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/roundcornor_ripple"
             android:backgroundTint="@color/colorSecondary"
             android:text="Submit"
             android:textAppearance="@style/NormalTextStyle"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/signup_info_dialog_batch" />
 
@@ -92,79 +94,82 @@
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout8" />
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/dialog_signup_info_branch_show"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="50dp"
             android:text="Branch"
             android:textAppearance="@style/NormalTextViewAppearance"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/signup_info_dialog_branches"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/signup_info_dialog_gender" />
 
-        <ListView
-            android:id="@+id/signup_info_dialog_branches"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView7"
-            android:fillViewport="true"
-            />
-
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/dialog_signup_info_year_show"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:text="Year"
             android:textAppearance="@style/NormalTextViewAppearance"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/signup_info_dialog_year"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/signup_info_dialog_branches" />
 
-        <ListView
-            android:id="@+id/signup_info_dialog_year"
-            android:layout_width="0dp"
-            android:layout_height="250dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="16dp"
-            android:fillViewport="true"
-            android:entries="@array/year_info"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView8" />
-
         <TextView
-            android:id="@+id/textView9"
+            android:id="@+id/dialog_signup_info_batch_show"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:text="Batch"
             android:textAppearance="@style/NormalTextViewAppearance"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/signup_info_dialog_batch"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/signup_info_dialog_year" />
 
-        <ListView
-            android:id="@+id/signup_info_dialog_batch"
-            android:layout_width="0dp"
+        <Button
+            android:id="@+id/signup_info_dialog_branches"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:fillViewport="true"
+            android:background="@drawable/roundcornor_ripple"
+            android:backgroundTint="@color/colorSecondary"
+            android:text="Select Branch"
+            android:textAppearance="@style/NormalTextStyle"
+            app:layout_constraintBottom_toBottomOf="@+id/dialog_signup_info_branch_show"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView9" />
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/dialog_signup_info_branch_show"
+            app:layout_constraintTop_toTopOf="@+id/dialog_signup_info_branch_show" />
+
+        <Button
+            android:id="@+id/signup_info_dialog_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/roundcornor_ripple"
+            android:backgroundTint="@color/colorSecondary"
+            android:text="Select Year"
+            android:textAppearance="@style/NormalTextStyle"
+            app:layout_constraintBottom_toBottomOf="@+id/dialog_signup_info_year_show"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/dialog_signup_info_year_show"
+            app:layout_constraintTop_toTopOf="@+id/dialog_signup_info_year_show" />
+
+        <Button
+            android:id="@+id/signup_info_dialog_batch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/roundcornor_ripple"
+            android:backgroundTint="@color/colorSecondary"
+            android:text="Batch"
+            android:textAppearance="@style/NormalTextStyle"
+            app:layout_constraintBottom_toBottomOf="@+id/dialog_signup_info_batch_show"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/dialog_signup_info_batch_show"
+            app:layout_constraintTop_toTopOf="@+id/dialog_signup_info_batch_show" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

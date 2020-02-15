@@ -195,9 +195,9 @@ public class DialogMakeAssign extends DialogFragment {
                     SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
                     dateshow.setText(sdf.format(calendar.getTime()));
                 }
-            },cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.YEAR));
+            },cal.get(Calendar.DAY_OF_MONTH),cal.get(Calendar.MONTH),cal.get(Calendar.YEAR));
 
-            dialog.getDatePicker().setMinDate(cal.getTimeInMillis());
+            dialog.getDatePicker().setMinDate(System.currentTimeMillis());
 
             dialog.show();
 
