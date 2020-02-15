@@ -1,7 +1,9 @@
 package com.example.collegemate;
 
+import android.graphics.Bitmap;
 import android.util.Pair;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.firebase.firestore.DocumentReference;
 
 import java.util.ArrayList;
@@ -12,6 +14,7 @@ import java.util.Map;
 public class Global {
     static String webClientId = "709110177436-gv2u5bvti6a6v27ffdffkvmu15jlu42d.apps.googleusercontent.com";
     static UserData documentData;
+    static Bitmap profileimage;
 
 
 
@@ -38,12 +41,20 @@ public class Global {
             public String uid;
             public  String password;
             public String name;
+            public Integer gender;
+            public Integer branch;
+            public Integer batch;
+            public Integer year;
 
-            public UserInfoModal(String phone, String uid, String password, String name) {
+            public UserInfoModal(String phone, String uid, String password, String name, Integer gender, Integer branch, Integer batch, Integer year) {
                 this.phone = phone;
                 this.uid = uid;
                 this.password = password;
                 this.name = name;
+                this.gender = gender;
+                this.branch = branch;
+                this.batch = batch;
+                this.year = year;
             }
 
             public UserInfoModal(){
@@ -104,7 +115,11 @@ public class Global {
 
     }
     static DocumentReference userRef;
+    static DocumentReference userFieldRef;
     static int NUMBER_OF_CLASSES = 56;
+
+    static List<String> branches;
+    static List<String> batches;
 
 
 
