@@ -1,6 +1,8 @@
 package com.example.collegemate;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -37,13 +40,15 @@ public class SignUpInfoDialog extends DialogFragment {
 
     TextInputEditText name;
     Button submit;
-    ListView year,batch,branch;
+    Button year,batch,branch;
     RadioGroup gender;
 
     int yearid = -1;
     int branchid = -1;
     int batchid = -1;
     int genderid = -1;
+
+    TextView branchshow,yearshow,batchshow;
 
 
 
@@ -70,12 +75,13 @@ public class SignUpInfoDialog extends DialogFragment {
         branch = rootview.findViewById(R.id.signup_info_dialog_branches);
         gender = rootview.findViewById(R.id.signup_info_dialog_gender);
 
+        branchshow = rootview.findViewById(R.id.dialog_signup_info_branch_show);
+        yearshow = rootview.findViewById(R.id.dialog_signup_info_year_show);
+        batchshow = rootview.findViewById(R.id.dialog_signup_info_batch_show);
+
         //Loading Data
 
-        ArrayAdapter<String> branch_adapter = new ArrayAdapter<String>(getActivity(),R.layout.support_simple_spinner_dropdown_item,Global.branches);
-        ArrayAdapter<String> batch_adapter = new ArrayAdapter<String>(getActivity(),R.layout.support_simple_spinner_dropdown_item,Global.batches);
-        branch.setAdapter(branch_adapter);
-        batch.setAdapter(batch_adapter);
+
 
 
         gender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -88,25 +94,50 @@ public class SignUpInfoDialog extends DialogFragment {
             }
         });
 
-        year.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        year.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                yearid = position;
-                parent.getChildAt(position).setBackgroundColor(Color.GRAY);
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                final CharSequence[] years = getResources().getStringArray(R.array.year_info);
+                builder.setItems(years, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        branchid = which;
+                        yearshow.setText(years[which]);
+                    }
+                });
+                builder.show();
             }
         });
-        branch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        branch.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                branchid = position;
-                parent.getChildAt(position).setBackgroundColor(Color.GRAY);
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                final CharSequence[] branches = Global.branches.toArray(new CharSequence[0]);
+                builder.setItems(branches, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        branchid = which;
+                        branchshow.setText(branches[which]);
+                    }
+                });
+                builder.show();
             }
         });
-        batch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        batch.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                batchid = position;
-                parent.getChildAt(position).setBackgroundColor(Color.GRAY);
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                final CharSequence[] batches = Global.batches.toArray(new CharSequence[0]);
+                builder.setItems(batches, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        batchid = which;
+                        batchshow.setText(batches[which]);
+                    }
+                });
+
+                builder.show();
             }
         });
 
@@ -183,5 +214,8 @@ public class SignUpInfoDialog extends DialogFragment {
     private void setupValues(){
         Global.ModalClasses.UserInfoModal data = Global.documentData.userInfo;
         name.setText(data.name);
+        yearshow.setText(getResources().getStringArray(R.array.year_info)[data.year]);
+        branchshow.setText(Global.branches.get(data.branch));
+        batchshow.setText(Global.batches.get(data.batch));
     }
 }

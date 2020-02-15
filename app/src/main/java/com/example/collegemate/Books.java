@@ -3,30 +3,24 @@ package com.example.collegemate;
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.Application;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -46,14 +40,10 @@ import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.google.zxing.Dimension;
-import com.google.zxing.WriterException;
 
-import java.nio.file.Files;
 import java.util.ArrayList;
 
 import static android.os.Environment.DIRECTORY_DOWNLOADS;
-import static android.os.Environment.getExternalStorageDirectory;
 import static android.os.Environment.getExternalStorageState;
 
 public class Books extends AppCompatActivity {
@@ -69,7 +59,7 @@ public class Books extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerViewAdapter.ViewHolder holder, final int position) {
-            final File data = Global.documentData.savedFile.get(position);
+            final FileModal data = Global.documentData.savedFileModal.get(position);
             holder.name.setText(data.name);
             holder.uploaded.setText(data.uploaded);
 
@@ -77,19 +67,8 @@ public class Books extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    if(data.path  != null){
-                        java.io.File file = new java.io.File(data.path);
-
-
-                        // Get URI and MIME type of file
-                        Intent myIntent = new Intent(Intent.ACTION_VIEW);
-                        myIntent.setData(Uri.fromFile(file));
-                        Intent j = Intent.createChooser(myIntent, "Choose an application to open with:");
-                        startActivity(j);
-                    }else{
-                        StorageReference ref = mStorageRef.child(Global.documentData.userInfo.uid+"/Books/"+data.id+".pdf");
-                        getFileUrl(ref);
-                    }
+                    StorageReference ref = mStorageRef.child(Global.documentData.userInfo.uid+"/Books/"+data.id+".pdf");
+                    getFileUrl(ref);
 
                 }
             });
@@ -119,7 +98,7 @@ public class Books extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            return Global.documentData.savedFile.size();
+            return Global.documentData.savedFileModal.size();
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder{
@@ -129,7 +108,6 @@ public class Books extends AppCompatActivity {
             TextView name, uploaded;
             public ViewHolder(@NonNull View itemView) {
                 super(itemView);
-                preview = itemView.findViewById(R.id.books_recycler_image_preview);
                 qrimage = itemView.findViewById(R.id.books_recycler_imagebutton);
                 download = itemView.findViewById(R.id.books_recycler_download);
                 name = itemView.findViewById(R.id.books_recycler_name);
@@ -185,8 +163,8 @@ public class Books extends AppCompatActivity {
             }
         });
 
-        if(Global.documentData.savedFile == null){
-            Global.documentData.savedFile = new ArrayList<>();
+        if(Global.documentData.savedFileModal == null){
+            Global.documentData.savedFileModal = new ArrayList<>();
         }
 
         rv.setLayoutManager(new LinearLayoutManager(Books.this));
@@ -194,19 +172,13 @@ public class Books extends AppCompatActivity {
         rv.setAdapter(adapter);
 
         //Refrencing the object
-        if(Global.documentData.savedFile == null){
-            Global.documentData.savedFile = new ArrayList<>();
+        if(Global.documentData.savedFileModal == null){
+            Global.documentData.savedFileModal = new ArrayList<>();
         }
 
     }
 
-    /*public void getPDFFile() {
-        Intent intent=new Intent();
-        intent.setType("application/pdf");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent,"Select PDF FILE"),1);
 
-    } */
 
 
 
@@ -217,11 +189,11 @@ public class Books extends AppCompatActivity {
         String location_file=data.getPath();
 
 
-         final File upload_file=new File(Global.documentData.userInfo.name,DialogAddBook.nameString,System.currentTimeMillis(),data.getPath());
+         final FileModal upload_fileModal =new FileModal(Global.documentData.userInfo.name,DialogAddBook.nameString,System.currentTimeMillis(),data.getPath());
         //String filext=location_file.substring(location_file.lastIndexOf("."));
         //Toast.makeText(this, ""+data, Toast.LENGTH_LONG).show();
         //System.out.println(data);
-        StorageReference reference=mStorageRef.child(Global.documentData.userInfo.uid+"/Books/"+upload_file.id+".pdf");
+        StorageReference reference=mStorageRef.child(Global.documentData.userInfo.uid+"/Books/"+ upload_fileModal.id+".pdf");
         reference.putFile(data)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
@@ -231,11 +203,11 @@ public class Books extends AppCompatActivity {
                         Uri url=uri.getResult();
                         uploadPDF uploadPDF=new uploadPDF(url.toString());
                         databaseReference.child(databaseReference.push().getKey()).setValue(uploadPDF);
-                        Toast.makeText(Books.this, "File Uploaded", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Books.this, "FileModal Uploaded", Toast.LENGTH_SHORT).show();
                         progressDialog.dismiss();
 
-                        Global.documentData.savedFile.add(upload_file);
-                        Global.userRef.update("savedFile",Global.documentData.savedFile);
+                        Global.documentData.savedFileModal.add(upload_fileModal);
+                        Global.userRef.update("savedFileModal",Global.documentData.savedFileModal);
                         adapter.notifyDataSetChanged();
 
 
@@ -259,25 +231,25 @@ public class Books extends AppCompatActivity {
                     public void onSuccess(ListResult listResult) {
                         for (StorageReference item : listResult.getItems()) {
                             int flag=0;
-                            //System.out.println(File.arr_file.toString());
-                            for(int i=0;i< File.arr_file.size();i++){
-                                if(item.getName().substring(0,item.getName().lastIndexOf('.')-1).equals(((Long)File.arr_file.get(i).id).toString())){
+                            //System.out.println(FileModal.arr_fileModal.toString());
+                            for(int i = 0; i< FileModal.arr_fileModal.size(); i++){
+                                if(item.getName().substring(0,item.getName().lastIndexOf('.')-1).equals(((Long) FileModal.arr_fileModal.get(i).id).toString())){
                                     flag++;
                                 }
                             }
                             if(flag==0){
                                 getFileUrl(item);
-                                File down_file=new File();
-                                down_file.id=Long.valueOf(item.getName().substring(0,item.getName().lastIndexOf('.')-1));
-                                System.out.println(down_file.id);
-                                down_file.path=DIRECTORY_DOWNLOADS;
-                                down_file.uploaded = Global.documentData.userInfo.name;
-                                down_file.name = "om";
-                                Global.documentData.savedFile.add(down_file);
-                                Global.userRef.update("savedFile",Global.documentData.savedFile);
+                                FileModal down_fileModal =new FileModal();
+                                down_fileModal.id=Long.valueOf(item.getName().substring(0,item.getName().lastIndexOf('.')-1));
+                                System.out.println(down_fileModal.id);
+                                down_fileModal.path=DIRECTORY_DOWNLOADS;
+                                down_fileModal.uploaded = Global.documentData.userInfo.name;
+                                down_fileModal.name = "om";
+                                Global.documentData.savedFileModal.add(down_fileModal);
+                                Global.userRef.update("savedFileModal",Global.documentData.savedFileModal);
                             }
 
-                            //Opening File
+                            //Opening FileModal
                         }
                     }
                 })
@@ -303,23 +275,23 @@ public class Books extends AppCompatActivity {
     private void getFileUrl(StorageReference ref){
         final String name=ref.getName();
         int flag = 0 ;
-        for(int i=0;i< Global.documentData.savedFile.size();i++){
-            if(ref.getName().substring(0,ref.getName().lastIndexOf('.')).equals(((Long)Global.documentData.savedFile.get(i).id).toString())){
+        for(int i = 0; i< Global.documentData.savedFileModal.size(); i++){
+            if(ref.getName().substring(0,ref.getName().lastIndexOf('.')).equals(((Long)Global.documentData.savedFileModal.get(i).id).toString())){
                 flag++;
             }
         }
         if(flag==0){
             //getFileUrl(ref);
-            File down_file=new File();
-            down_file.id=Long.valueOf(ref.getName().substring(0,ref.getName().lastIndexOf('.')));
-            System.out.println(down_file.id);
-            down_file.path=DIRECTORY_DOWNLOADS;
-            down_file.uploaded = Global.documentData.userInfo.name;
-            down_file.name = "om";
-            Global.documentData.savedFile.add(down_file);
-            Global.userRef.update("savedFile",Global.documentData.savedFile);
+            FileModal down_fileModal =new FileModal();
+            down_fileModal.id=Long.valueOf(ref.getName().substring(0,ref.getName().lastIndexOf('.')));
+            System.out.println(down_fileModal.id);
+            down_fileModal.path=DIRECTORY_DOWNLOADS;
+            down_fileModal.uploaded = Global.documentData.userInfo.name;
+            down_fileModal.name = "om";
+            Global.documentData.savedFileModal.add(down_fileModal);
+            Global.userRef.update("savedFileModal",Global.documentData.savedFileModal);
         }else{
-            Toast.makeText(this, "File Already Exists", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "FileModal Already Exists", Toast.LENGTH_SHORT).show();
 
 
             return;
