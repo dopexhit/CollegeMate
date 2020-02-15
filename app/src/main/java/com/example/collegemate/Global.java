@@ -5,6 +5,7 @@ import android.util.Pair;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -102,15 +103,17 @@ public class Global {
         public List<String> subjects;
         public Map<String,ModalClasses.AttendanceModal> attendance;
         public List<ModalClasses.AssignmentModal> assignment;
+        public ArrayList<File> savedFile;
 
         public UserData(){
 
         }
 
-        public UserData(Map<String, List<ModalClasses.TimeTableModal>> timetable, ModalClasses.UserInfoModal userinfo,List<String> subjects) {
+        public UserData(Map<String, List<ModalClasses.TimeTableModal>> timetable, ModalClasses.UserInfoModal userinfo,List<String> subjects, ArrayList<File> file) {
             this.timetable = timetable;
             this.userInfo = userinfo;
             this.subjects = subjects;
+            this.savedFile = file;
         }
 
     }

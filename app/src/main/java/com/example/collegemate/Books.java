@@ -5,11 +5,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -30,6 +34,8 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
+
 import static android.os.Environment.DIRECTORY_DOWNLOADS;
 import static java.security.AccessController.getContext;
 
@@ -37,6 +43,9 @@ public class Books extends AppCompatActivity {
 
     StorageReference mStorageRef;
     DatabaseReference databaseReference;
+
+    Integer STORAGE_WRITE_REQUEST_CODE = 100;
+    Integer STORAGE_READ_REQUET_CODE = 100;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +53,15 @@ public class Books extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.signup_toolbar);
         setSupportActionBar(toolbar);
         Button fetch_button=findViewById(R.id.fetch_button);
+
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_DENIED){
+            ActivityCompat.requestPermissions(Books.this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_WRITE_REQUEST_CODE);
+        }
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_DENIED){
+            ActivityCompat.requestPermissions(Books.this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_READ_REQUET_CODE);
+        }
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
         databaseReference = FirebaseDatabase.getInstance().getReference(Global.documentData.userInfo.uid);
@@ -63,6 +81,12 @@ public class Books extends AppCompatActivity {
                 viewAllFiles();
             }
         });
+
+        //Refrencing the object
+        if(Global.documentData.savedFile == null){
+            Global.documentData.savedFile = new ArrayList<>();
+        }
+
     }
 
     private void getPDFFile() {
@@ -87,7 +111,7 @@ public class Books extends AppCompatActivity {
         progressDialog.setTitle("Uploading...");
         progressDialog.show();
         String location_file=data.getPath();
-        File upload_file=new File(data);
+        File upload_file=new File(System.currentTimeMillis(),data.getPath());
         //String filext=location_file.substring(location_file.lastIndexOf("."));
         //Toast.makeText(this, ""+data, Toast.LENGTH_LONG).show();
         //System.out.println(data);
@@ -113,7 +137,8 @@ public class Books extends AppCompatActivity {
                 progressDialog.setMessage("Uploaded: "+(int)progress+"%");
             }
         });
-        upload_file.add_file();
+        Global.documentData.savedFile.add(upload_file);
+        Global.userRef.update("savedFile",Global.documentData.savedFile);
     }
     private void viewAllFiles(){
         StorageReference listRef = mStorageRef.child(Global.documentData.userInfo.uid+"/");
@@ -132,11 +157,12 @@ public class Books extends AppCompatActivity {
                             }
                             if(flag==0){
                                 getFileUrl(item);
-                                File down_file=new File();
+                                File down_file=new File(System.currentTimeMillis(),item.getPath());
                                 down_file.id=Long.valueOf(item.getName().substring(0,item.getName().lastIndexOf('.')-1));
                                 System.out.println(down_file.id);
                                 down_file.path=DIRECTORY_DOWNLOADS;
-                                down_file.add_file();
+                                Global.documentData.savedFile.add(down_file);
+                                Global.userRef.update("savedFile",Global.documentData.savedFile);
                             }
                         }
                     }
