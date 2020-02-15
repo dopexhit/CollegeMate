@@ -21,4 +21,13 @@ public class FileModal {
         FileModal.arr_fileModal.add(this);
         Global.documentData.savedFileModal.add(this);
     }
+    public static boolean checkPresent(String name){
+        int flag=0;
+        for(FileModal fi:Global.documentData.savedFileModal){
+            if(name.equals(Long.toString(fi.id)))flag++;
+        }
+        if(flag>0)return true;
+        return false;
+
+    }
 }
