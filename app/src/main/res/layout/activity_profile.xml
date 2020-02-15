@@ -24,8 +24,9 @@
         android:id="@+id/profile_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="100dp"
         android:text="TextView"
+        android:textAppearance="@style/NormalTextViewAppearance"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,6 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="TextView"
+        android:textAppearance="@style/NormalTextViewAppearance"
         app:layout_constraintEnd_toEndOf="@+id/profile_name"
         app:layout_constraintStart_toStartOf="@+id/profile_name"
         app:layout_constraintTop_toBottomOf="@+id/profile_name" />
@@ -47,6 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="TextView"
+        android:textAppearance="@style/NormalTextViewAppearance"
         app:layout_constraintEnd_toEndOf="@+id/profile_gender"
         app:layout_constraintStart_toStartOf="@+id/profile_gender"
         app:layout_constraintTop_toBottomOf="@+id/profile_gender" />
@@ -57,6 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="TextView"
+        android:textAppearance="@style/NormalTextViewAppearance"
         app:layout_constraintEnd_toEndOf="@+id/profile_batch"
         app:layout_constraintStart_toStartOf="@+id/profile_batch"
         app:layout_constraintTop_toBottomOf="@+id/profile_batch" />
@@ -102,6 +106,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="TextView"
+        android:textAppearance="@style/NormalTextViewAppearance"
         app:layout_constraintEnd_toEndOf="@+id/profile_branch"
         app:layout_constraintStart_toStartOf="@+id/profile_branch"
         app:layout_constraintTop_toBottomOf="@+id/profile_branch" />
@@ -116,4 +121,5 @@
         app:layout_constraintEnd_toEndOf="@+id/profile_image"
         app:layout_constraintStart_toStartOf="@+id/profile_image"
         app:layout_constraintTop_toBottomOf="@+id/profile_image" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,11 @@
 package com.example.collegemate;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -122,11 +126,20 @@ public class DialogMakeAssign extends DialogFragment {
 
     Calendar calendar;
 
+    public void setupNotifications(){
+        Intent i = new Intent(getActivity(),Notifications.class);
+        AlarmManager alarmmanager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);                      //to run the alarm even if we close the app
+        alarmmanager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis()-System.currentTimeMillis() , PendingIntent.getBroadcast(getActivity().getBaseContext(), 1,i, PendingIntent.FLAG_UPDATE_CURRENT));
+    }
+
     private  void uploadData(){
         String sub = Global.documentData.subjects.get(subid);
         Long timestamp = calendar.getTimeInMillis();
         Global.ModalClasses.AssignmentModal data = new Global.ModalClasses.AssignmentModal(detials.getText().toString(),timestamp,sub);
 
+
+        setupNotifications();
+        FragmentReminders.adapter.notifyDataSetChanged();
 
         if(Global.documentData.assignment == null){
             Global.documentData.assignment = new ArrayList<>();
@@ -171,6 +184,7 @@ public class DialogMakeAssign extends DialogFragment {
         @Override
         public void onClick(View v) {
             final Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.MILLISECOND, (int) System.currentTimeMillis());
             DatePickerDialog dialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {

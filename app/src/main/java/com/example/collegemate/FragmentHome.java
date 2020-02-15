@@ -6,12 +6,15 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+
+import com.google.zxing.Result;
 
 
 /**
@@ -22,7 +25,7 @@ import android.widget.ImageButton;
  * Use the {@link FragmentHome#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentHome extends Fragment {
+public class FragmentHome extends Fragment  {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -66,6 +69,8 @@ public class FragmentHome extends Fragment {
     }
 
     Button assignmentreminder;
+    ImageButton scan;
+    Button addsubject;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,6 +80,8 @@ public class FragmentHome extends Fragment {
 
         //Refrencing objects
         assignmentreminder = rootview.findViewById(R.id.home_frag_assignment_reminder);
+        scan = rootview.findViewById(R.id.fragment_home_scan);
+        addsubject = rootview.findViewById(R.id.fragment_home_addsubject);
 
 
         assignmentreminder.setOnClickListener(new View.OnClickListener() {
@@ -87,9 +94,30 @@ public class FragmentHome extends Fragment {
             }
         });
 
+        addsubject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogAddSubject dialog = new DialogAddSubject();
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                dialog.show(ft,"hello");
+            }
+        });
+
+        scan.setOnClickListener(scanCallback);
+
 
         return rootview;
     }
+
+
+    private View.OnClickListener scanCallback = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            /*mScannerView = new ZXingScannerView(getContext());   // Programmatically initialize the scanner view
+            getActivity().setContentView(mScannerView); */
+        }
+    };
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -115,6 +143,7 @@ public class FragmentHome extends Fragment {
         mListener = null;
     }
 
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -129,4 +158,34 @@ public class FragmentHome extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+
+
+
+
+
+    //private ZXingScannerView mScannerView;
+
+
+    /*@Override
+    public void onResume() {
+        super.onResume();
+        mScannerView.setResultHandler(this); // Register ourselves as a handler for scan results.
+        mScannerView.startCamera();          // Start camera on resume
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mScannerView.stopCamera();           // Stop camera on pause
+    }
+
+    @Override
+    public void handleResult(Result rawResult) {
+        // Do something with the result here
+         // Prints the scan format (qrcode, pdf417 etc.)
+
+        // If you would like to resume scanning, call this method below:
+        mScannerView.resumeCameraPreview(this);
+    } */
 }
