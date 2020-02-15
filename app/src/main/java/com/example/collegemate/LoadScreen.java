@@ -72,7 +72,8 @@ public class LoadScreen extends AppCompatActivity {
                 if(task.getResult()!=null){
                     Global.documentData = task.getResult().toObject(Global.UserData.class);
                     loadpolls();
-
+                    startActivity(new Intent(LoadScreen.this,Home.class));
+                    finish();
                 }else{
                     Toast.makeText(LoadScreen.this, "Please connect to Internet", Toast.LENGTH_SHORT).show();
                     finish();
@@ -89,9 +90,6 @@ public class LoadScreen extends AppCompatActivity {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.getResult() !=null){
                     Global.polls = (ArrayList<Global.ModalClasses.PollModal>) task.getResult().get(Global.documentData.userInfo.batch.toString());
-                    startActivity(new Intent(LoadScreen.this,Home.class));
-                    finish();
-
                 }
             }
         });
