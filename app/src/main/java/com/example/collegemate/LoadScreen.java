@@ -89,7 +89,7 @@ public class LoadScreen extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.getResult() !=null){
-                    Global.polls = task.getResult().toObject(Global.polls.getClass());
+                    Global.polls = (ArrayList<Global.ModalClasses.PollModal>) task.getResult().get(Global.documentData.userInfo.batch.toString());
                 }
             }
         });
