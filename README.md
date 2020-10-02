@@ -11,6 +11,9 @@ Several features of out app include:- <br>
 <b>5> Lending :- </b> You often forget whom you gave your belongings to, this app keeps track of that as well and will remind you at a certain interval about that <br>
 <b>6> Personal Documents :- </b> You can keep all you personal documents here so whenever required they are just a click away. <br>
 <b>7> Groups :- </b> Students can create groups and add others in it. <br>
-<b>8> Polls :- </b>Students can organise polls and get know the openion of their fellow classmen. 
+<b>8> Polls :- </b>Students can organise polls and get know the openion of their fellow classmen.
+
+
 That's All!!
+Thanks for reading!
 <br>
